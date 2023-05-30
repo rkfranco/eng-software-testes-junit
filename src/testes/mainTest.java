@@ -8,5 +8,4 @@ import org.junit.runners.Suite;
         GerenciadoraClientesTestes.class,
         GerenciadoraContasTestes.class
 })
-public class mainTest {
-}
+public class mainTest {}

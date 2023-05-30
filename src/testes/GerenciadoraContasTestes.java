@@ -3,6 +3,7 @@ package testes;
     contaAtiva()
  */
 
+import negocio.Cliente;
 import negocio.ContaCorrente;
 import negocio.GerenciadoraContas;
 import org.junit.After;
@@ -67,6 +68,10 @@ public class GerenciadoraContasTestes {
         assertEquals(100, gerContas.getContasDoBanco().size());
         for (int i = 0; i < gerContas.getContasDoBanco().size(); i++)
             assertEquals(list.get(i).toString(), gerContas.pesquisaConta(i).toString());
+
+        gerContas.adicionaConta(null);
+        for (ContaCorrente conta : gerContas.getContasDoBanco())
+            assertNotNull(conta);
     }
 
     private ArrayList<ContaCorrente> inserirRegistros() {
@@ -104,8 +109,9 @@ public class GerenciadoraContasTestes {
     public void testContaAtiva() {
         inserirRegistros();
         int ativa = 0, desativa = 0;
+
         for (ContaCorrente conta : gerContas.getContasDoBanco()) {
-            if (conta.isAtiva()) ativa++;
+            if (gerContas.contaAtiva(conta.getId())) ativa++;
             else desativa++;
         }
         assertEquals(50, ativa);

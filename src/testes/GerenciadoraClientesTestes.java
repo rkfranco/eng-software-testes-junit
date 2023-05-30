@@ -40,16 +40,9 @@ public class GerenciadoraClientesTestes {
     @Test
     public void testGetClientesDoBanco() {
         assertNotNull(gerClientes.getClientesDoBanco());
-        assertTrue(isEqualToListaClientes());
-    }
-
-    private static boolean isEqualToListaClientes() {
         List<Cliente> lista = gerClientes.getClientesDoBanco();
-        for (int i = 0; i < listaClientes.size(); i++) {
-            if (!listaClientes.get(i).equals(lista.get(i)))
-                return false;
-        }
-        return true;
+        for (int i = 0; i < listaClientes.size(); i++)
+            assertEquals(listaClientes.get(i), lista.get(i));
     }
 
     @Test
@@ -67,6 +60,11 @@ public class GerenciadoraClientesTestes {
         gerClientes.adicionaCliente(cliente2);
         assertSame(cliente1, gerClientes.pesquisaCliente(3));
         assertSame(cliente2, gerClientes.pesquisaCliente(4));
+
+        gerClientes.adicionaCliente(null);
+        for (Cliente cliente : gerClientes.getClientesDoBanco())
+            assertNotNull(cliente);
+
     }
 
     @Test
@@ -79,6 +77,8 @@ public class GerenciadoraClientesTestes {
         boolean extraRegisters = true;
 
         // Aceita mais de um registro com o mesmo ID
+        gerClientes.adicionaCliente(cliente1);
+        gerClientes.adicionaCliente(cliente2);
 
         while (extraRegisters) {
             gerClientes.removeCliente(3);
@@ -119,7 +119,6 @@ public class GerenciadoraClientesTestes {
 
         gerClientes.limpa();
         assertEquals(0, gerClientes.getClientesDoBanco().size());
-        inicializaSistemaBancario();
     }
 
     @Test
